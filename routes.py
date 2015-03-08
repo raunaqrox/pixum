@@ -16,6 +16,11 @@ def game1():
   return render_template('part9.html')
 
 
+@app.route('/game2')
+def game2():
+  return render_template('flappyclone.html')
+
+
 
 
 
