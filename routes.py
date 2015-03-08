@@ -21,6 +21,11 @@ def game2():
   return render_template('flappyclone.html')
 
 
+@app.route('/game3')
+def game3():
+  return render_template('darkroom.html')
+
+
 
 
 
