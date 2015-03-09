@@ -26,6 +26,14 @@ def game3():
   return render_template('darkroom.html')
 
 
+@app.route('/game4')
+def game4():
+  return render_template('jumpforurlife.html')
+
+
+
+
+
 
 
 
