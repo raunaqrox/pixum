@@ -9,33 +9,7 @@ app = Flask(__name__,static_folder='static', static_url_path='')
 
 @app.route('/')
 def home():
-  return render_template('index.html')
-
-@app.route('/game1')
-def game1():
-  return render_template('part9.html')
-
-
-@app.route('/game2')
-def game2():
-  return render_template('flappyclone.html')
-
-
-@app.route('/game3')
-def game3():
-  return render_template('darkroom.html')
-
-
-@app.route('/game4')
-def game4():
-  return render_template('jumpforurlife.html')
-
-
-
-
-
-
-
+	return render_template("test.html")
 
 
 
