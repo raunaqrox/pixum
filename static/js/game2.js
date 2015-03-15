@@ -1,5 +1,5 @@
 window.onload = function(){
-	var game = new Phaser.Game(320,480, Phaser.AUTO) ;
+	var game = new Phaser.Game(320,480, Phaser.AUTO);
 	var bird;
 	var birdGravity = 800;
 	var birdSpeed = 125;
@@ -16,6 +16,7 @@ window.onload = function(){
 	var playerSize = 32;
 	var enemySize = 12;
 	var scale = 1;
+	var cursors;
 
 	var play = function (game){}
 	play.prototype = {
@@ -54,11 +55,13 @@ window.onload = function(){
 			spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 			spaceKey.onDown.add(flap, this);			
 			game.time.events.loop(pipeInterval, addPipe);
-			game.time.events.loop(reductionInterval, helpBird);			
+			game.time.events.loop(reductionInterval, helpBird);	
+			cursors = game.input.keyboard.createCursorKeys();
+			cursors.up.onDown.add(flap,this);					
         	addPipe();
 		},
 		update:function(){			
-			game.physics.arcade.overlap(bird, pipeGroup, bigger,null,this);
+			game.physics.arcade.overlap(bird, pipeGroup, bigger,null,this);			
 			if(bird.y>game.height || bird.y <= 0){
 				die();
 			}
