@@ -4,8 +4,8 @@ window.onload = function(){
 	var birdGravity = 800;
 	var birdSpeed = 125;
 	var birdFlapPower = 300;
-	var pipeInterval = 300;
-	var reductionInterval = 1000;	
+	var pipeInterval = 200;
+	var reductionInterval = 1300;	
 	var pipe;
 	var pipeGroup;
 	var score = 0;
