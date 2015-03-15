@@ -33,7 +33,7 @@ window.onload = function(){
 			updateScore();
 			game.stage.backgroundColor = "87CEEB";
 			//if the browser tab loses focus game will not pause
-			game.stage.disableVisibilityChange = false;
+			game.stage.disableVisibilityChange = true;
 			game.physics.startSystem(Phaser.Physics.ARCADE);
 			//bitmapdata if doing without sprite
 			var birdbmd = game.add.bitmapData(playerSize,playerSize);
