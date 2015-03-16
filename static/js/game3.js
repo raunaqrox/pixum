@@ -12,6 +12,7 @@ window.onload = function(){
         preload: function(){            
             game.load.image('title', 'img/pixum2.png');
             game.load.image('click', 'img/click2.png');
+            game.load.image('star', 'img/star.png');
             game.stage.backgroundColor = "2EE1E1";
         },
         create: function(){
@@ -67,9 +68,15 @@ window.onload = function(){
         this.scoreText;
         this.topScore;
         this.pipebmd;
+
+        this.health;
+        this.healthGroup;
+        this.healthInterval = 3000;
+
         this.spaceKey;
         this.playerSize = 32;
         this.enemySize = 12;
+        this.rectSize = 10;
         this.scale = 1;
         this.cursors;
         var that = this;    
@@ -78,8 +85,7 @@ window.onload = function(){
         create:function(){
             that = this;
             this.scale = 1;          
-            this.score = 0;
-            
+            this.score = 0;            
             this.topScore = localStorage.getItem("topScore")==null?0:localStorage.getItem("topScore");
             
             this.scoreText = game.add.text(10,10,"-",{
@@ -97,28 +103,46 @@ window.onload = function(){
             this.birdbmd.ctx.rect(0,0,this.playerSize,this.playerSize);
             this.birdbmd.ctx.fillStyle = "#fff";
             this.birdbmd.ctx.fill();
+            
             this.pipebmd = game.add.bitmapData(this.enemySize,this.enemySize);
             this.pipebmd.ctx.rect(0,0,this.enemySize,this.enemySize);
-            //make color random
             this.pipebmd.ctx.fillStyle = "#333";
             this.pipebmd.ctx.fill();
+            
+            this.healthbmd = game.add.bitmapData(this.rectSize,this.rectSize*2);
+            this.healthbmd.ctx.rect(0,0,this.rectSize,this.rectSize*2);
+            this.healthbmd.ctx.fillStyle = "#ffd700";
+            this.healthbmd.ctx.fill();
+
+            //this.health = game.add.sprite(80,240,this.birdbmd);
+
             this.bird = game.add.sprite(80,240,this.birdbmd);
             this.bird.anchor.set(0.5);
-            game.physics.arcade.enable(this.bird);
+            game.physics.arcade.enable(this.bird);            
+
             this.pipeGroup = game.add.group();
+            this.healthGroup = game.add.group();
+
             game.physics.arcade.enable(this.pipeGroup);
-            this.pipeGroup.enableBody = true;            
+            game.physics.arcade.enable(this.healthGroup);
+
+            this.pipeGroup.enableBody = true;
+            this.healthGroup.enableBody = true;
+
             this.bird.body.gravity.y = this.birdGravity;
             this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
             this.spaceKey.onDown.add(this.flap, this);            
             game.time.events.loop(this.pipeInterval, this.addPipe, this);
-            game.time.events.loop(this.reductionInterval, this.helpBird, this); 
+            game.time.events.loop(this.reductionInterval, this.helpBird, this);
+            game.time.events.loop(this.healthInterval, this.addHealth, this);
+
             this.cursors = game.input.keyboard.createCursorKeys();
             this.cursors.up.onDown.add(this.flap,this);                   
             this.addPipe();
         },
         update:function(){        
-            game.physics.arcade.overlap(this.bird, this.pipeGroup, this.bigger,null,this);         
+            game.physics.arcade.overlap(this.bird, this.pipeGroup, this.bigger,null,this);
+            game.physics.arcade.overlap(this.bird, this.healthGroup, this.healthier,null,this);         
             if(this.bird.y > game.height || this.bird.y <= 0){
                 this.die();
             }            
@@ -153,6 +177,12 @@ window.onload = function(){
             this.pipe.body.velocity.x = -this.birdSpeed;     
         },
 
+        addHealth: function(){            
+            var randomY = game.rnd.between(50,480);
+            this.health = this.healthGroup.create(game.width - this.rectSize, randomY, this.healthbmd);        
+            this.health.body.velocity.x = -this.birdSpeed;
+        },
+
         getRandomColor: function(){
             var toSelectFrom = [1,2,3,4,5,6,7,8,9,'A','B','C','D','E'];
             var random = "#";
@@ -170,6 +200,15 @@ window.onload = function(){
             this.score -= 0.5;
             this.bird.body.gravity.y += 50;
             enemy.kill();
+            this.updateScore();
+        },
+        healthier:function(bird, healthbar){            
+            this.score += 10;
+            if(this.scale > 1){
+                this.scale -= 0.3;
+            }            
+            this.bird.scale.set(this.scale,this.scale);                        
+            healthbar.kill();
             this.updateScore();
         },
         die: function(){
