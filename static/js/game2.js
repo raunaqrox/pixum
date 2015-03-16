@@ -17,6 +17,8 @@ window.onload = function(){
 	var enemySize = 12;
 	var scale = 1;
 	var cursors;
+	//add stars if insanely fat get a star and survive
+	var stars;
 
 	var play = function (game){}
 	play.prototype = {
@@ -43,6 +45,7 @@ window.onload = function(){
         	birdbmd.ctx.fill();
         	pipebmd = game.add.bitmapData(enemySize,enemySize);
 			pipebmd.ctx.rect(0,0,enemySize,enemySize);
+			//make color random
 			pipebmd.ctx.fillStyle = "#333";
         	pipebmd.ctx.fill();
         	bird = game.add.sprite(80,240,birdbmd);
