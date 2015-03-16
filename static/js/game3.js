@@ -137,7 +137,8 @@ window.onload = function(){
             game.time.events.loop(this.healthInterval, this.addHealth, this);
 
             this.cursors = game.input.keyboard.createCursorKeys();
-            this.cursors.up.onDown.add(this.flap,this);                   
+            this.cursors.up.onDown.add(this.flap,this);  
+            game.input.onDown.add(this.flap,this);         
             this.addPipe();
         },
         update:function(){        
@@ -145,7 +146,8 @@ window.onload = function(){
             game.physics.arcade.overlap(this.bird, this.healthGroup, this.healthier,null,this);         
             if(this.bird.y > game.height || this.bird.y <= 0){
                 this.die();
-            }            
+            }
+
         },
         helpBird: function(){      
             this.score+=0.5;
