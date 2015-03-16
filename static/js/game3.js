@@ -154,7 +154,9 @@ window.onload = function(){
                 return;
             }        
             this.bird.body.gravity.y -= 50;
-            this.scale -= 0.3;
+            if(this.scale > 1){
+                this.scale -= 0.3;
+            }            
             this.bird.scale.set(this.scale,this.scale);        
         },
 
@@ -203,7 +205,7 @@ window.onload = function(){
             this.updateScore();
         },
         healthier:function(bird, healthbar){            
-            this.score += 10;
+            this.score += 5;
             if(this.scale > 1){
                 this.scale -= 0.3;
             }            
