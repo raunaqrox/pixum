@@ -11,8 +11,7 @@ window.onload = function(){
     menu.prototype = {
         preload: function(){            
             game.load.image('title', 'img/pixum2.png');
-            game.load.image('click', 'img/click2.png');
-            game.load.image('star', 'img/star.png');
+            game.load.image('click', 'img/click2.png');            
             game.stage.backgroundColor = "2EE1E1";
         },
         create: function(){
@@ -272,7 +271,7 @@ window.onload = function(){
         }
     
     }
-    var game = new Phaser.Game(width,height, Phaser.AUTO);
+    var game = new Phaser.Game(width,height, Phaser.AUTO,'myGame');
     game.state.add('menu',menu);
     game.state.add('game',play);
     game.state.add('gameover',gameover
